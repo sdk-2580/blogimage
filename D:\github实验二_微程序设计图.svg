@@ -1,0 +1,139 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1380" height="930" viewBox="0 0 1380 930">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111111"/>
+    </marker>
+        <filter id="rough" x="-3%" y="-3%" width="106%" height="106%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.25" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="paper" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="11" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0.97  0 0 0 0 0.94  0 0 0 0 0.86  0 0 0 .18 0"/>
+    </filter>
+    <style>
+      .title{font:700 28px "SimSun","FangSong","Microsoft YaHei",serif;fill:#111111}
+      .sub{font:16px "SimSun","FangSong","Microsoft YaHei",serif;fill:#111111}
+      .box{fill:#ffffff;stroke:#111111;stroke-width:1.5;rx:0;ry:0;}
+      .fetch{fill:#ffffff;stroke:#111111}
+      .op{fill:#ffffff;stroke:#111111}
+      .branch{fill:#ffffff;stroke:#111111}
+      .halt{fill:#ffffff;stroke:#111111}
+      .text{font:16px "SimSun","FangSong","Microsoft YaHei",serif;fill:#111111}
+      .small{font:13px "SimSun","FangSong","Microsoft YaHei",serif;fill:#111111}
+      .line{stroke:#111111;stroke-width:1.5;fill:none;marker-end:url(#arrow);stroke-linecap:round;stroke-linejoin:round;}
+      .dash{stroke:#111111;stroke-width:1.5;fill:none;marker-end:url(#arrow);stroke-linecap:round;stroke-linejoin:round;}
+      .label{font:13px "SimSun","FangSong","Microsoft YaHei",serif;fill:#111111}
+    </style>
+  </defs>
+  <text x="40" y="48" class="title">实验二 微程序设计图：递减输出</text>
+  <text x="40" y="78" class="sub">机器程序：IN R0,00H → LDI R1,01H → SUB R0,R1 → BZC 0CH → OUT 40H,R0 → JMP 04H → HLT</text>
+
+  <rect x="550" y="115" width="280" height="58" class="box fetch"/>
+  <text x="690" y="140" text-anchor="middle" class="text">00：NOP</text>
+  <text x="690" y="161" text-anchor="middle" class="small">公共取指入口</text>
+
+  <rect x="550" y="210" width="280" height="58" class="box fetch"/>
+  <text x="690" y="235" text-anchor="middle" class="text">01：PC → AR，PC+1</text>
+  <text x="690" y="256" text-anchor="middle" class="small">准备取机器指令</text>
+
+  <rect x="550" y="305" width="280" height="70" class="box fetch"/>
+  <text x="690" y="332" text-anchor="middle" class="text">03：MEM → IR</text>
+  <text x="690" y="354" text-anchor="middle" class="small">P&lt;1&gt; 指令译码进入对应入口</text>
+
+  <path d="M690 173 L690 210" class="line"/>
+  <path d="M690 268 L690 305" class="line"/>
+
+  <rect x="40" y="445" width="230" height="58" class="box op"/>
+  <text x="155" y="470" text-anchor="middle" class="text">32：IN 入口</text>
+  <text x="155" y="491" text-anchor="middle" class="small">PC → AR，PC+1</text>
+  <rect x="40" y="535" width="230" height="58" class="box op"/>
+  <text x="155" y="560" text-anchor="middle" class="text">08：MEM → AR</text>
+  <text x="155" y="581" text-anchor="middle" class="small">取输入端口 00H</text>
+  <rect x="40" y="625" width="230" height="58" class="box op"/>
+  <text x="155" y="650" text-anchor="middle" class="text">09：IO → RD</text>
+  <text x="155" y="671" text-anchor="middle" class="small">IN[00H] → R0</text>
+
+  <rect x="305" y="445" width="230" height="58" class="box op"/>
+  <text x="420" y="470" text-anchor="middle" class="text">36：LDI 入口</text>
+  <text x="420" y="491" text-anchor="middle" class="small">PC → AR，PC+1</text>
+  <rect x="305" y="535" width="230" height="58" class="box op"/>
+  <text x="420" y="560" text-anchor="middle" class="text">11：MEM → RD</text>
+  <text x="420" y="581" text-anchor="middle" class="small">01H → R1</text>
+
+  <rect x="570" y="445" width="230" height="58" class="box op"/>
+  <text x="685" y="470" text-anchor="middle" class="text">38：SUB 入口</text>
+  <text x="685" y="491" text-anchor="middle" class="small">RD → A</text>
+  <rect x="570" y="535" width="230" height="58" class="box op"/>
+  <text x="685" y="560" text-anchor="middle" class="text">13：RS → B</text>
+  <text x="685" y="581" text-anchor="middle" class="small">读取 R1</text>
+  <rect x="570" y="625" width="230" height="58" class="box op"/>
+  <text x="685" y="650" text-anchor="middle" class="text">14：A - B → RD</text>
+  <text x="685" y="671" text-anchor="middle" class="small">R0 - 1 → R0</text>
+
+  <rect x="835" y="445" width="230" height="58" class="box op"/>
+  <text x="950" y="470" text-anchor="middle" class="text">33：OUT 入口</text>
+  <text x="950" y="491" text-anchor="middle" class="small">PC → AR，PC+1</text>
+  <rect x="835" y="535" width="230" height="58" class="box op"/>
+  <text x="950" y="560" text-anchor="middle" class="text">0A：MEM → AR</text>
+  <text x="950" y="581" text-anchor="middle" class="small">取输出端口 40H</text>
+  <rect x="835" y="625" width="230" height="58" class="box op"/>
+  <text x="950" y="650" text-anchor="middle" class="text">10：RS → IO</text>
+  <text x="950" y="671" text-anchor="middle" class="small">R0 → OUT[40H]</text>
+
+  <rect x="1100" y="445" width="240" height="58" class="box branch"/>
+  <text x="1220" y="470" text-anchor="middle" class="text">3C：BZC/JMP 入口</text>
+  <text x="1220" y="491" text-anchor="middle" class="small">PC → AR，PC+1</text>
+  <rect x="1100" y="535" width="240" height="58" class="box branch"/>
+  <text x="1220" y="560" text-anchor="middle" class="text">1C：MEM → A</text>
+  <text x="1220" y="581" text-anchor="middle" class="small">取转移目标地址</text>
+  <rect x="1100" y="625" width="240" height="58" class="box branch"/>
+  <text x="1220" y="650" text-anchor="middle" class="text">1D：P&lt;2&gt; 寻址处理</text>
+  <text x="1220" y="671" text-anchor="middle" class="small">直接寻址，分类转移</text>
+
+  <rect x="1015" y="745" width="200" height="58" class="box branch"/>
+  <text x="1115" y="769" text-anchor="middle" class="text">0F：P&lt;3&gt;</text>
+  <text x="1115" y="791" text-anchor="middle" class="small">判断 FZ/FC</text>
+  <rect x="1250" y="745" width="100" height="58" class="box branch"/>
+  <text x="1300" y="769" text-anchor="middle" class="text">1B</text>
+  <text x="1300" y="791" text-anchor="middle" class="small">A → PC</text>
+  <rect x="1160" y="835" width="150" height="50" class="box halt"/>
+  <text x="1235" y="865" text-anchor="middle" class="text">35：HLT 循环</text>
+
+  <path d="M625 375 L625 420 L155 420 L155 445" class="dash"/>
+  <text x="340" y="415" class="label">IN</text>
+  <path d="M660 375 L660 420 L420 420 L420 445" class="dash"/>
+  <text x="505" y="415" class="label">LDI</text>
+  <path d="M695 375 L695 420 L685 420 L685 445" class="dash"/>
+  <text x="708" y="415" class="label">SUB</text>
+  <path d="M730 375 L730 420 L950 420 L950 445" class="dash"/>
+  <text x="845" y="415" class="label">OUT</text>
+  <path d="M760 375 L760 420 L1220 420 L1220 445" class="dash"/>
+  <text x="1065" y="415" class="label">BZC / JMP / HLT</text>
+
+  <path d="M155 503 L155 535" class="line"/>
+  <path d="M155 593 L155 625" class="line"/>
+  <path d="M270 654 L270 740 L690 740 L690 268" class="dash"/>
+
+  <path d="M420 503 L420 535" class="line"/>
+  <path d="M535 564 L535 700 L690 700 L690 268" class="dash"/>
+
+  <path d="M685 503 L685 535" class="line"/>
+  <path d="M685 593 L685 625" class="line"/>
+  <path d="M685 683 L685 730 L690 730 L690 268" class="dash"/>
+
+  <path d="M950 503 L950 535" class="line"/>
+  <path d="M950 593 L950 625" class="line"/>
+  <path d="M950 683 L950 740 L690 740 L690 268" class="dash"/>
+
+  <path d="M1220 503 L1220 535" class="line"/>
+  <path d="M1220 593 L1220 625" class="line"/>
+  <path d="M1200 683 L1135 745" class="line"/>
+  <path d="M1250 683 L1250 720 L1300 720 L1300 745" class="line"/>
+  <text x="1264" y="714" class="label">JMP</text>
+  <path d="M1115 803 L1115 825 L1160 850" class="line"/>
+  <path d="M1300 803 L1275 835" class="line"/>
+  <path d="M1075 803 L1075 870 L690 870 L690 268" class="dash"/>
+  <text x="875" y="840" class="label">BZC 不成立，返回取指</text>
+  <text x="1100" y="730" class="label">BZC 成立</text>
+</svg>
