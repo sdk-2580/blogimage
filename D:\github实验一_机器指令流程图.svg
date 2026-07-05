@@ -1,0 +1,65 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="980" height="860" viewBox="0 0 980 860">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111111"/>
+    </marker>
+        <filter id="rough" x="-3%" y="-3%" width="106%" height="106%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.25" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="paper" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="11" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0.97  0 0 0 0 0.94  0 0 0 0 0.86  0 0 0 .18 0"/>
+    </filter>
+    <style>
+      .title{font:700 28px "SimSun","FangSong","Microsoft YaHei",serif;fill:#111111}
+      .sub{font:16px "SimSun","FangSong","Microsoft YaHei",serif;fill:#111111}
+      .box{fill:#ffffff;stroke:#111111;stroke-width:1.5;rx:0;ry:0;}
+      .io{fill:#ffffff;stroke:#111111}
+      .calc{fill:#ffffff;stroke:#111111}
+      .cond{fill:#ffffff;stroke:#111111;}
+      .halt{fill:#ffffff;stroke:#111111}
+      .text{font:18px "SimSun","FangSong","Microsoft YaHei",serif;fill:#111111}
+      .small{font:14px "SimSun","FangSong","Microsoft YaHei",serif;fill:#111111}
+      .line{stroke:#111111;stroke-width:1.5;fill:none;marker-end:url(#arrow);stroke-linecap:round;stroke-linejoin:round;}
+      .label{font:14px "SimSun","FangSong","Microsoft YaHei",serif;fill:#111111}
+    </style>
+  </defs>
+  <text x="40" y="48" class="title">实验一 机器指令流程图：倍增输出</text>
+  <text x="40" y="78" class="sub">从 IN 读取 B，循环输出 B、2B、4B、8B，直到结果为 00H 或产生进位后停机。</text>
+
+  <rect x="350" y="120" width="280" height="62" class="box io"/>
+  <text x="490" y="146" text-anchor="middle" class="text">00：IN R0,00H</text>
+  <text x="490" y="168" text-anchor="middle" class="small">IN[00H] → R0</text>
+
+  <rect x="350" y="230" width="280" height="62" class="box io"/>
+  <text x="490" y="256" text-anchor="middle" class="text">02：OUT 40H,R0</text>
+  <text x="490" y="278" text-anchor="middle" class="small">R0 → OUT[40H]</text>
+
+  <rect x="350" y="340" width="280" height="62" class="box calc"/>
+  <text x="490" y="366" text-anchor="middle" class="text">04：ADD R0,R0</text>
+  <text x="490" y="388" text-anchor="middle" class="small">R0 × 2 → R0</text>
+
+  <path d="M490 182 L490 230" class="line"/>
+  <path d="M490 292 L490 340" class="line"/>
+
+  <path d="M490 450 L585 535 L490 620 L395 535 Z" class="cond" stroke-width="1.5"/>
+  <text x="490" y="525" text-anchor="middle" class="text">05：BZC 10H</text>
+  <text x="490" y="548" text-anchor="middle" class="small">FZ=1 或 FC=1？</text>
+
+  <rect x="350" y="700" width="280" height="62" class="box halt"/>
+  <text x="490" y="727" text-anchor="middle" class="text">10：HLT</text>
+  <text x="490" y="749" text-anchor="middle" class="small">停机</text>
+
+  <rect x="70" y="504" width="230" height="62" class="box"/>
+  <text x="185" y="530" text-anchor="middle" class="text">07：JMP 02H</text>
+  <text x="185" y="552" text-anchor="middle" class="small">回到 LOOP</text>
+
+  <path d="M490 402 L490 450" class="line"/>
+  <path d="M490 620 L490 700" class="line"/>
+  <text x="508" y="665" class="label">是</text>
+
+  <path d="M395 535 L300 535" class="line"/>
+  <text x="338" y="520" class="label">否</text>
+  <path d="M185 504 L185 260 L350 260" class="line"/>
+</svg>
